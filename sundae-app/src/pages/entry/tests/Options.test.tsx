@@ -1,12 +1,13 @@
+import React from 'react'
 import {render,screen} from '../../../test-utils/testing-library'
 
 import Options from '../Options'
-import { expect } from '@jest/globals'
+import { expect,test } from '@jest/globals'
 
 
 test('displays image for each scoop option from server',async () => {
 
-    render(<Options optionType='scoops'/>)
+    render(<Options optionType='scoops'/>,{})
 
     //find the images
 
@@ -23,7 +24,7 @@ test('displays image for each scoop option from server',async () => {
 
  test('Displays image for each toppings option from server', async () => {
     //return 3 toppings from server
-    render(<Options optionType='toppings'/>)
+    render(<Options optionType='toppings'/>,{})
 
     const images = await screen.findAllByRole('img',{name:/topping$/i})
     expect(images).toHaveLength(3)

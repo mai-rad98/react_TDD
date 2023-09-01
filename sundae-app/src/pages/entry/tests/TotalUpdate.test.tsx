@@ -1,14 +1,18 @@
 import { render, screen } from "../../../test-utils/testing-library";
 import userEvent from "@testing-library/user-event";
 import Options from "../Options";
-import OrderEntry from '../../entry/OrderEntry'
+import OrderEntry from '../OrderEntry'
+import { expect,test,describe } from '@jest/globals'
+import '@testing-library/jest-dom/extend-expect';
+
+import React from 'react'
 
 test("update scoop subtotal when scoops change", async () => {
   const user = userEvent.setup();
-  render(<Options optionType="scoops" />);
+  render(<Options optionType="scoops" />,{});
 
   // make sure total starts out $0.00
-  const scoopsSubtotal = screen.getByText("Scoops total: $", { exact: false });
+  const scoopsSubtotal = screen.getByText("Scoops total: $", { exact: false }) ;
   expect(scoopsSubtotal).toHaveTextContent(/\$\d+\.\d+/);
 
   // update vanilla scoops to 1 and check the subtotal
@@ -30,7 +34,7 @@ test("update scoop subtotal when scoops change", async () => {
 
 test("update toppings subtotal when toppings change", async () => {
   const user = userEvent.setup();
-  render(<Options optionType="toppings" />);
+  render(<Options optionType="toppings" />,{});
 
   // make sure total starts out at $0.00
   const toppingsTotal = screen.getByText("Toppings total: $", { exact: false });
@@ -58,7 +62,7 @@ describe("grand total", () => {
       const user = userEvent.setup();
   
       // Test that the total starts out at $0.00
-      render(<OrderEntry />);
+      render(<OrderEntry setOrderPhase={undefined} />,{});
       const grandTotal = screen.getByRole("heading", { name: /Grand total: \$/ });
       expect(grandTotal).toHaveTextContent("0.00");
   
@@ -80,7 +84,7 @@ describe("grand total", () => {
   
     test("grand total updates properly if topping is added first", async () => {
       const user = userEvent.setup();
-      render(<OrderEntry />);
+      render(<OrderEntry setOrderPhase={undefined} />,{});
       const grandTotal = screen.getByRole("heading", { name: /Grand total: \$/ });
   
       // add cherries and check grand total
@@ -101,7 +105,7 @@ describe("grand total", () => {
   
     test("grand total updates properly if item is removed", async () => {
       const user = userEvent.setup();
-      render(<OrderEntry />);
+      render(<OrderEntry setOrderPhase={undefined} />,{});
   
       // add cherries
       const cherriesCheckbox = await screen.findByRole("checkbox", {

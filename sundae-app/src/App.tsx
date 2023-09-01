@@ -1,16 +1,20 @@
 import Container from "react-bootstrap/Container";
-import OrderEntry from "./pages/entry/OrderEntry";
+import React from 'react'
 import { OrderDetailsProvider } from "./contexts/OrderDetails";
+import OrderEntry from "./pages/entry/OrderEntry";
 
 function App() {
   return (
-    <Container>
+   
       <OrderDetailsProvider>
-        {/* Summary page and entry page need provider */}
-        <OrderEntry />
+         <Container> 
+          <OrderEntry setOrderPhase={undefined} />
+         </Container>
+      
+       
       </OrderDetailsProvider>
-      {/* Confirmation page does not need provider */}
-    </Container>
+    
+   
   );
 }
 

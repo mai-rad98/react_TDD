@@ -2,10 +2,13 @@
 import { render, screen, } from '@testing-library/react';
 import SummaryForm from '../SummaryForm';
 import userEvent from '@testing-library/user-event'
+import { expect,test } from '@jest/globals'
+import '@testing-library/jest-dom/extend-expect';
+import React from 'react';
 
 // Initial test
 test('initial test', () => {
-  render(<SummaryForm />);
+  render(<SummaryForm setOrderPhase={undefined} />);
   const checkbox = screen.getByRole('checkbox', {
     name: /terms and conditions/i,
   });
@@ -25,7 +28,7 @@ test('initial test', () => {
 test('checkbox that disables button on first click and enables on second click', async() => {
     const user = userEvent.setup()
 
-  render(<SummaryForm />);
+  render(<SummaryForm setOrderPhase={undefined} />);
   const checkbox = screen.getByRole('checkbox', {
     name: /terms and conditions/i,
   });
@@ -50,7 +53,7 @@ test('checkbox that disables button on first click and enables on second click',
 test('popover responds to hover', async() => {
 
     const user  =  userEvent.setup()
-    render(<SummaryForm />)
+    render(<SummaryForm setOrderPhase={undefined} />)
 
     // Popover starts out hidden
     const nullPopover = screen.queryByText(

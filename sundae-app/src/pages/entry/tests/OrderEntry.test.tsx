@@ -3,6 +3,8 @@ import {render,screen,waitFor} from '../../../test-utils/testing-library'
 import OrderEntry from '../OrderEntry'
 import {rest} from 'msw'
 import {server} from '../../../mocks/server'
+import { expect,test } from '@jest/globals'
+import React from 'react'
 
 test('handles error for scoops and toppings routes', async () => {
     server.resetHandlers(
@@ -14,7 +16,7 @@ test('handles error for scoops and toppings routes', async () => {
     )
     )
 
-    render(<OrderEntry />)
+    render(<OrderEntry setOrderPhase={undefined} />,{})
     
     await waitFor(async () => {
         const alerts = await screen.findAllByRole('alert')

@@ -23,11 +23,11 @@ const OrderSummary = () => {
   return (
     <>
       <h1>Order Summary</h1>
-      <h2>Scoops: {formatCurrency(totals.scoops)}</h2>
+      <h2>Scoops: {formatCurrency(Number(totals.scoops))}</h2>
       <ul>{scoopsList}</ul>
-      <h2>Toppings: {formatCurrency(totals.toppings)}</h2>
+      <h2>Toppings: {formatCurrency(Number(totals.toppings))}</h2>
       <ul>{toppingsList}</ul>
-      <SummaryForm />
+      <SummaryForm setOrderPhase={undefined} />
     </>
   );
 };

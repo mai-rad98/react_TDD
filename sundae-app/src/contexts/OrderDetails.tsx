@@ -1,11 +1,43 @@
 import { createContext, useContext, useState } from "react";
 import { pricePerItem } from "../constants";
+import React from 'react'
+//@ts-ignore
+const OrderDetails = createContext<OrderDetailsContextValue>();
 
-const OrderDetails = createContext();
+interface optionCounts{
+  scoops:ItemCountMap;
+  toppings:ItemCountMap;
+}
+interface OrderTotals {
+
+  scoops: string;
+
+  toppings: string;
+
+  grandTotal: string;
+
+}
+
+interface OrderDetailsData extends optionCounts {
+
+  totals: OrderTotals;
+
+}
+interface OrderDetailsContextValue extends OrderDetailsData {
+  updateItemCount: UpdateCount;
+  resetOrder: ResetOrder;
+}
+
+type ResetOrder = () => void;
+type UpdateCount = (itemName:string,newItemCount: number| string,optionType: 'scoops'|'toppings') => void;
+
+//type OrderDetailsContextValue = [OrderDetailsData,UpdateCount,ResetOrder]
+type ItemCountMap = Map<string,number>
+
 
 // create custom hook to check whether we're in a provider
-export function useOrderDetails() {
-  const contextValue = useContext(OrderDetails);
+export function useOrderDetails() :OrderDetailsContextValue {
+  const contextValue = useContext<OrderDetailsContextValue>(OrderDetails);
 
   if (!contextValue) {
     throw new Error(
@@ -17,12 +49,12 @@ export function useOrderDetails() {
 }
 
 export function OrderDetailsProvider(props) {
-  const [optionCounts, setOptionCounts] = useState({
-    scoops: {}, // example: { Chocolate: 1, Vanilla: 2 }
-    toppings: {}, // example: { "Gummi Bears": 1 }
+  const [optionCounts, setOptionCounts] = useState<optionCounts>({
+    scoops: new Map(), // example: { Chocolate: 1, Vanilla: 2 }
+    toppings: new Map(), // example: { "Gummi Bears": 1 }
   });
 
-  function updateItemCount(itemName, newItemCount, optionType) {
+  function updateItemCount(itemName:string,newItemCount: number| string,optionType: 'scoops'|'toppings') {
     // make a copy of existing state
     const newOptionCounts = { ...optionCounts };
 
@@ -44,13 +76,13 @@ export function OrderDetailsProvider(props) {
   }
 
   function resetOrder() {
-    setOptionCounts({ scoops: {}, toppings: {} });
+    setOptionCounts({ scoops: new Map(), toppings: new Map() });
   }
 
   // utility function to derive totals from optionCounts state value
-  function calculateTotal(optionType) {
+  function calculateTotal(optionType:string) {
     // get an array of counts for the option type (for example, [1, 2])
-    const countsArray = Object.values(optionCounts[optionType]);
+    const countsArray:number[] = Object.values(optionCounts[optionType]);
 
     // total the values in the array of counts for the number of items
     const totalCount = countsArray.reduce((total, value) => total + value, 0);
