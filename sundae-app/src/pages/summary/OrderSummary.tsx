@@ -9,14 +9,14 @@ const OrderSummary = () => {
   const scoopArray = Object.entries(optionCounts.scoops);
   const scoopsList = scoopArray.map(([key, value]) => (
     <li key={key}>
-      {value} {key}
+      {value as string} {key}
     </li>
   ));
 
   const toppingsArray = Object.entries(optionCounts.toppings);
   const toppingsList = toppingsArray.map(([key, value]) => (
     <li key={key}>
-      {value} {key}
+      {value as string} {key}
     </li>
   ));
 
@@ -27,7 +27,7 @@ const OrderSummary = () => {
       <ul>{scoopsList}</ul>
       <h2>Toppings: {formatCurrency(Number(totals.toppings))}</h2>
       <ul>{toppingsList}</ul>
-      <SummaryForm setOrderPhase={undefined} />
+      <SummaryForm setOrderPhase={() => {}} /> {/* Ensure setOrderPhase has a function */}
     </>
   );
 };
